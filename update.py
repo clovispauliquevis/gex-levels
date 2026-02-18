@@ -1,25 +1,38 @@
-name: Atualizar GEX
+import requests
+import json
+from datetime import datetime
 
-on:
-  schedule:
-    - cron: '30 12,13,15,16,18,19 * * 1-5'
-  workflow_dispatch:
+# ===== CONFIG =====
+OUTPUT_FILE = "gex_qqq.json"
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
+# ===== FUNÇÃO SIMULANDO COLETA GEX =====
+# (Depois podemos trocar por API real)
+def coletar_gex():
 
-    steps:
-      - uses: actions/checkout@v3
+    # Aqui você pode futuramente puxar API real
+    dados = {
+        "QQQ Put Wall": 600.0,
+        "QQQ Call Wall": 630.0,
+        "QQQ Gamma Flip": 174.78,
+        "QQQ Max Gamma": 640.0,
+        "QQQ Min Gamma": 600.0,
+        "QQQ Max IV": 184.78,
+        "QQQ Min IV": 676.0,
+        "Atualizado": str(datetime.now())
+    }
 
-      - name: Configurar Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+    return dados
 
-      - name: Instalar dependências
-        run: pip install requests
+# ===== SALVAR JSON =====
+def salvar_json(dados):
 
-      - name: Rodar script
-        run: python update.py
+    with open(OUTPUT_FILE, "w") as f:
+        json.dump(dados, f, indent=2)
 
+# ===== EXECUÇÃO =====
+if __name__ == "__main__":
+
+    dados = coletar_gex()
+    salvar_json(dados)
+
+    print("GEX atualizado com sucesso!")
