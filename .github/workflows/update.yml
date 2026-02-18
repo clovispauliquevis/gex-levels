@@ -14,9 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -26,20 +28,37 @@ jobs:
       - name: Instalar dependências
         run: pip install yfinance pandas numpy
 
+      - name: Atualizar para o main mais recente
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Gerar levels.json
         run: python gex_calc.py
 
-      - name: Commit e push
+      - name: Commit e push (com retry)
         run: |
           git config user.name "gex-bot"
           git config user.email "gex-bot@users.noreply.github.com"
 
-          # Atualiza a branch local com o remoto antes de commitar
-          git pull --rebase origin main
-
-          # Só commita se houver mudança
           git add levels.json
+
+          # Se não mudou nada, para aqui sem erro
           git diff --cached --quiet && echo "Sem alterações" && exit 0
 
           git commit -m "Atualiza levels.json"
-          git push origin main
+
+          # Tenta push; se alguém commitou no meio, re-sincroniza e tenta de novo
+          for i in 1 2 3; do
+            git push origin main && exit 0
+            echo "Push falhou, tentativa $i: ressincronizando..."
+            git fetch origin main
+            git reset --hard origin/main
+            python gex_calc.py
+            git add levels.json
+            git diff --cached --quiet && echo "Sem alterações após resync" && exit 0
+            git commit -m "Atualiza levels.json (retry $i)" || true
+          done
+
+          echo "Falhou após 3 tentativas"
+          exit 1
