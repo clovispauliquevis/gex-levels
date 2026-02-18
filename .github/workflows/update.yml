@@ -2,9 +2,12 @@ name: Atualizar GEX QQQ/MNQ
 
 on:
   schedule:
-    # 6 vezes por dia (UTC). Depois ajustamos fino se quiser.
     - cron: '30 12,13,15,16,18,19 * * 1-5'
   workflow_dispatch:
+
+concurrency:
+  group: gex-levels-update
+  cancel-in-progress: true
 
 jobs:
   update:
@@ -12,6 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -28,6 +33,13 @@ jobs:
         run: |
           git config user.name "gex-bot"
           git config user.email "gex-bot@users.noreply.github.com"
+
+          # Atualiza a branch local com o remoto antes de commitar
+          git pull --rebase origin main
+
+          # Só commita se houver mudança
           git add levels.json
-          git commit -m "Atualiza levels.json" || exit 0
-          git push
+          git diff --cached --quiet && echo "Sem alterações" && exit 0
+
+          git commit -m "Atualiza levels.json"
+          git push origin main
