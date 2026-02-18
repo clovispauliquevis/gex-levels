@@ -1,1 +1,25 @@
+name: Atualizar GEX
+
+on:
+  schedule:
+    - cron: '30 12,13,15,16,18,19 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependências
+        run: pip install requests
+
+      - name: Rodar script
+        run: python update.py
 
