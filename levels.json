@@ -12,6 +12,7 @@
   "QQQ High Gamma-2": 590.0,
   "QQQ High Gamma-3": 600.0,
   "QQQ High Gamma-4": 550.0,
+
   "MNQ Put Wall": 2400.0,
   "MNQ Call Wall": 2520.0,
   "MNQ Put Wall 0DTE": 2060.0,
@@ -25,5 +26,6 @@
   "MNQ High Gamma-2": 2360.0,
   "MNQ High Gamma-3": 2400.0,
   "MNQ High Gamma-4": 2200.0,
-  "Atualizado": "2026-02-17 17:55:43.324745"
+
+  "Atualizado": "YYYY-MM-DD HH:MM:SS"
 }
