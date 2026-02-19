@@ -7,11 +7,11 @@
   "QQQ Min Gamma": 590.0,
   "QQQ Gamma Flip": 174.78,
   "QQQ Max IV": 184.78,
-  "QQQ Min IV": 200.0,
+  "QQQ Min IV": 676.0,
   "QQQ High Gamma-1": 590.0,
   "QQQ High Gamma-2": 580.0,
   "QQQ High Gamma-3": 550.0,
-  "QQQ High Gamma-4": 600.0,
+  "QQQ High Gamma-4": 400.0,
   "MNQ Put Wall": 2400.0,
   "MNQ Call Wall": 2520.0,
   "MNQ Put Wall 0DTE": 2400.0,
@@ -20,10 +20,10 @@
   "MNQ Min Gamma": 2360.0,
   "MNQ Gamma Flip": 699.12,
   "MNQ Max IV": 739.12,
-  "MNQ Min IV": 800.0,
+  "MNQ Min IV": 2704.0,
   "MNQ High Gamma-1": 2360.0,
   "MNQ High Gamma-2": 2320.0,
   "MNQ High Gamma-3": 2200.0,
-  "MNQ High Gamma-4": 2400.0,
-  "Atualizado": "2026-02-19 19:24:59.771246"
+  "MNQ High Gamma-4": 1600.0,
+  "Atualizado": "2026-02-19 19:59:34.180687"
 }
