@@ -6,7 +6,7 @@
   "QQQ Max Gamma": 750.0,
   "QQQ Min Gamma": 550.0,
   "QQQ Gamma Flip": 174.78,
-  "QQQ Max IV": 184.78,
+  "QQQ Max IV": 280.0,
   "QQQ Min IV": 200.0,
   "QQQ High Gamma-1": 550.0,
   "QQQ High Gamma-2": 590.0,
@@ -19,11 +19,11 @@
   "MNQ Max Gamma": 3000.0,
   "MNQ Min Gamma": 2200.0,
   "MNQ Gamma Flip": 699.12,
-  "MNQ Max IV": 739.12,
+  "MNQ Max IV": 1120.0,
   "MNQ Min IV": 800.0,
   "MNQ High Gamma-1": 2200.0,
   "MNQ High Gamma-2": 2360.0,
   "MNQ High Gamma-3": 1180.0,
   "MNQ High Gamma-4": 1600.0,
-  "Atualizado": "2026-02-20 17:09:21.913539"
+  "Atualizado": "2026-02-20 19:21:55.127213"
 }
