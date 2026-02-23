@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import math
+import json
 
 ticker = "QQQ"
 risk_free_rate = 0.05
@@ -34,6 +35,9 @@ def calculate_gex():
                 iv = row["impliedVolatility"]
                 oi = row["openInterest"]
 
+                if oi == 0 or iv is None:
+                    continue
+
                 gamma = calculate_gamma(price, strike, T, risk_free_rate, iv)
 
                 gex = gamma * oi * 100 * price
@@ -52,9 +56,17 @@ def calculate_gex():
     put_wall = df[df["gex"] < 0].nsmallest(1, "gex")["strike"].values[0]
     call_wall = df[df["gex"] > 0].nlargest(1, "gex")["strike"].values[0]
 
-    return {
+    result = {
         "QQQ Put Wall": round(float(put_wall), 2),
         "QQQ Call Wall": round(float(call_wall), 2),
         "QQQ Gamma Flip": round(float(gamma_flip), 2),
         "Atualizado": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
     }
+
+    return result
+
+if __name__ == "__main__":
+    data = calculate_gex()
+
+    with open("levels.json", "w") as f:
+        json.dump(data, f, indent=2)
