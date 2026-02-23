@@ -1,5 +1,3 @@
-print("RODANDO SCRIPT NOVO")
-
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -19,7 +17,12 @@ def calculate_qqq_gex():
 
     ticker = "QQQ"
     stock = yf.Ticker(ticker)
+
     price = stock.history(period="1d")["Close"].iloc[-1]
+    print("PREÇO QQQ:", price)
+
+    lower_bound = price * 0.85
+    upper_bound = price * 1.15
 
     expirations = stock.options
     today = datetime.today().date()
@@ -29,19 +32,23 @@ def calculate_qqq_gex():
     for exp in expirations[:3]:
         exp_date = datetime.strptime(exp, "%Y-%m-%d").date()
         T = (exp_date - today).days / 365
-
         is_0dte = (exp_date == today)
 
         chain = stock.option_chain(exp)
 
         for side, df in [("call", chain.calls), ("put", chain.puts)]:
             for _, row in df.iterrows():
-                if row["openInterest"] == 0:
-                    continue
 
                 strike = row["strike"]
-                iv = row["impliedVolatility"]
+
+                if strike < lower_bound or strike > upper_bound:
+                    continue
+
                 oi = row["openInterest"]
+                iv = row["impliedVolatility"]
+
+                if oi == 0 or iv is None or iv == 0:
+                    continue
 
                 gamma = gamma_bs(price, strike, T, RISK_FREE, iv)
                 gex = gamma * oi * 100 * price
@@ -55,6 +62,10 @@ def calculate_qqq_gex():
                     "side": side,
                     "is_0dte": is_0dte
                 })
+
+    if len(rows) == 0:
+        print("ERRO: Nenhum dado coletado")
+        return {}, price
 
     df = pd.DataFrame(rows)
 
@@ -72,9 +83,6 @@ def calculate_qqq_gex():
     put_wall = puts.nsmallest(1, "gex")["strike"].values[0]
     call_wall = calls.nlargest(1, "gex")["strike"].values[0]
 
-    put_high = puts.nsmallest(2, "gex")["strike"].tolist()
-    call_high = calls.nlargest(2, "gex")["strike"].tolist()
-
     puts_0 = df[(df["side"]=="put") & (df["is_0dte"])]
     calls_0 = df[(df["side"]=="call") & (df["is_0dte"])]
 
@@ -84,10 +92,6 @@ def calculate_qqq_gex():
     result = {
         "QQQ Put Wall": round(float(put_wall),2),
         "QQQ Call Wall": round(float(call_wall),2),
-        "QQQ Put High Gamma-1": round(float(put_high[0]),2),
-        "QQQ Put High Gamma-2": round(float(put_high[1]),2),
-        "QQQ Call High Gamma-1": round(float(call_high[0]),2),
-        "QQQ Call High Gamma-2": round(float(call_high[1]),2),
         "QQQ Put Wall 0DTE": round(float(put_wall_0),2) if put_wall_0 else None,
         "QQQ Call Wall 0DTE": round(float(call_wall_0),2) if call_wall_0 else None,
         "QQQ Max Gamma": round(float(max_gamma),2),
@@ -97,9 +101,11 @@ def calculate_qqq_gex():
 
     return result, price
 
+
 def convert_to_mnq(levels, qqq_price):
 
     mnq_price = yf.Ticker("MNQ=F").history(period="1d")["Close"].iloc[-1]
+    print("PREÇO MNQ:", mnq_price)
 
     ratio = mnq_price / qqq_price
 
@@ -113,9 +119,14 @@ def convert_to_mnq(levels, qqq_price):
 
     return mnq_levels
 
+
 if __name__ == "__main__":
 
     qqq_levels, qqq_price = calculate_qqq_gex()
+
+    if not qqq_levels:
+        exit()
+
     mnq_levels = convert_to_mnq(qqq_levels, qqq_price)
 
     final = {}
