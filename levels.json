@@ -6,12 +6,12 @@
   "QQQ Max Gamma": 600.0,
   "QQQ Min Gamma": 685.0,
   "QQQ Gamma Flip": 520.0,
-  "MNQ Put Wall": 24638.3,
-  "MNQ Call Wall": 25048.93,
-  "MNQ Put Wall 0DTE": 21353.19,
-  "MNQ Call Wall 0DTE": 21558.51,
-  "MNQ Max Gamma": 24638.3,
-  "MNQ Min Gamma": 28128.72,
-  "MNQ Gamma Flip": 21353.19,
-  "Atualizado": "2026-03-11 17:30:08 UTC"
+  "MNQ Put Wall": 24643.75,
+  "MNQ Call Wall": 25054.48,
+  "MNQ Put Wall 0DTE": 21357.92,
+  "MNQ Call Wall 0DTE": 21563.28,
+  "MNQ Max Gamma": 24643.75,
+  "MNQ Min Gamma": 28134.95,
+  "MNQ Gamma Flip": 21357.92,
+  "Atualizado": "2026-03-11 19:26:04 UTC"
 }
