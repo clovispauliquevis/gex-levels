@@ -1,17 +1,17 @@
 {
-  "QQQ Put Wall": 742.0,
+  "QQQ Put Wall": 745.0,
   "QQQ Call Wall": 750.0,
   "QQQ Put Wall 0DTE": 635.0,
   "QQQ Call Wall 0DTE": 680.0,
   "QQQ Max Gamma": 742.0,
   "QQQ Min Gamma": 689.0,
   "QQQ Gamma Flip": 635.0,
-  "MNQ Put Wall": 30708.54,
-  "MNQ Call Wall": 31039.63,
-  "MNQ Put Wall 0DTE": 26280.22,
-  "MNQ Call Wall 0DTE": 28142.59,
-  "MNQ Max Gamma": 30708.54,
-  "MNQ Min Gamma": 28515.07,
-  "MNQ Gamma Flip": 26280.22,
-  "Atualizado": "2026-10-13 19:28:03 UTC"
+  "MNQ Put Wall": 30842.2,
+  "MNQ Call Wall": 31049.19,
+  "MNQ Put Wall 0DTE": 26288.32,
+  "MNQ Call Wall 0DTE": 28151.27,
+  "MNQ Max Gamma": 30718.0,
+  "MNQ Min Gamma": 28523.86,
+  "MNQ Gamma Flip": 26288.32,
+  "Atualizado": "2026-10-13 23:23:40 UTC"
 }
